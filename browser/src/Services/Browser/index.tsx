@@ -45,6 +45,7 @@ export class BrowserLayer implements Oni.BufferLayer {
         return (
             <BrowserView
                 onAddressBarStateChanged={(val: boolean) => {
+                    console.warn("ADDRESS: " + val)
                     this._addressBarOpen = val
                 }}
                 configuration={this._configuration}
