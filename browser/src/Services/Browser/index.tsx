@@ -179,6 +179,8 @@ export const activate = (
     }
 
     const isBrowserLayerActive = () => {
+        // TODO:
+        // Still a bug if two different editors have same buffer id, need more unique way to identify them
         const currentLayer = activeLayers[editorManager.activeEditor.activeBuffer.id]
         return browserEnabledSetting.getValue() && currentLayer && !currentLayer.isAddressBarOpen
     }
