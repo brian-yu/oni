@@ -69,6 +69,8 @@ export interface IBrowserViewProps {
     scrollDown: IEvent<void>
     scrollLeft: IEvent<void>
     scrollRight: IEvent<void>
+
+    onAddressBarStateChanged: (isOpen: boolean) => void
 }
 
 export interface IBrowserViewState {
@@ -185,6 +187,7 @@ export class BrowserView extends React.PureComponent<IBrowserViewProps, IBrowser
                     <AddressBarView
                         url={this.state.url}
                         onAddressChanged={url => this._navigate(url)}
+                        onVisibilityChanged={this.props.onAddressBarStateChanged}
                     />
                     <BrowserButtonView icon={"bug"} onClick={this._openDebugger} />
                 </BrowserControlsWrapper>

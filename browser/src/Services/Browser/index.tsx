@@ -29,6 +29,11 @@ export class BrowserLayer implements Oni.BufferLayer {
     private _scrollDownEvent = new Event<void>()
     private _scrollRightEvent = new Event<void>()
     private _scrollLeftEvent = new Event<void>()
+    private _addressBarOpen: boolean = false
+
+    public get isAddressBarOpen(): boolean {
+        return this._addressBarOpen
+    }
 
     constructor(private _url: string, private _configuration: Configuration) {}
 
@@ -39,6 +44,9 @@ export class BrowserLayer implements Oni.BufferLayer {
     public render(): JSX.Element {
         return (
             <BrowserView
+                onAddressBarStateChanged={(val: boolean) => {
+                    this._addressBarOpen = val
+                }}
                 configuration={this._configuration}
                 initialUrl={this._url}
                 goBack={this._goBackEvent}
@@ -169,9 +177,10 @@ export const activate = (
         }
     }
 
-    const isBrowserLayerActive = () =>
-        !!activeLayers[editorManager.activeEditor.activeBuffer.id] &&
-        browserEnabledSetting.getValue()
+    const isBrowserLayerActive = () => {
+        const currentLayer = activeLayers[editorManager.activeEditor.activeBuffer.id]
+        return browserEnabledSetting.getValue() && currentLayer && !currentLayer.isAddressBarOpen
+    }
 
     // Per-layer commands
     commandManager.registerCommand({

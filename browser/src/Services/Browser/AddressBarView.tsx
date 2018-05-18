@@ -40,6 +40,7 @@ export interface IAddressBarViewProps {
     url: string
 
     onAddressChanged: (newAddress: string) => void
+    onVisibilityChanged: (visible: boolean) => void
 }
 
 export interface IAddressBarViewState {
@@ -55,6 +56,15 @@ export class AddressBarView extends React.PureComponent<
 
         this.state = {
             isActive: false,
+        }
+    }
+
+    public componentDidUpdate(
+        oldProps: IAddressBarViewProps,
+        oldState: IAddressBarViewState,
+    ): void {
+        if (this.state.isActive !== oldState.isActive) {
+            this.props.onVisibilityChanged(this.state.isActive)
         }
     }
 
